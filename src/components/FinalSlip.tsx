@@ -164,12 +164,12 @@ export function FinalSlip({
             </span>
           </div>
           {/* Interactive Stake Input in Receipt Header */}
-          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-750 px-3 py-1 rounded-lg focus-within:border-[#00e701]/60 focus-within:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all cursor-text pointer-events-auto">
-            <span className="text-[7.5px] text-slate-500 font-extrabold tracking-widest uppercase">
+          <div className="flex items-center gap-2 bg-slate-900 border border-slate-750 px-4 py-2 rounded-xl focus-within:border-[#00e701]/60 focus-within:shadow-[0_0_12px_rgba(0,231,1,0.15)] transition-all cursor-text pointer-events-auto">
+            <span className="text-[9px] text-slate-400 font-black tracking-widest uppercase">
               STAKE:
             </span>
             <div className="flex items-center font-mono">
-              <span className="text-[10px] font-black text-[#00e701]">$</span>
+              <span className="text-sm font-black text-[#00e701]">$</span>
               <input
                 type="number"
                 min="1"
@@ -178,14 +178,14 @@ export function FinalSlip({
                   const val = Number(e.target.value);
                   onStakeChange?.(val >= 1 ? val : 1);
                 }}
-                className="w-12 bg-transparent text-[10px] font-black text-white outline-none border-none p-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:ring-0"
+                className="w-14 bg-transparent text-sm font-black text-white outline-none border-none p-0 pl-0.5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:ring-0"
               />
             </div>
             {/* Subtle pulsing edit pencil indicator */}
             <motion.svg
               animate={{ opacity: [0.4, 0.85, 0.4] }}
               transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-3 h-3 text-slate-500 ml-0.5 shrink-0"
+              className="w-4 h-4 text-slate-450 ml-0.5 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
