@@ -131,10 +131,10 @@ export function FinalSlip({
   };
 
   return (
-    <div className="w-full max-w-sm flex-grow flex flex-col justify-start items-center pt-6 pb-44 px-4 overflow-y-auto">
+    <div className="w-full max-w-sm flex-1 min-h-0 flex flex-col justify-start items-center pt-4 pb-36 px-3 sm:px-4 overflow-y-auto">
 
       {/* Visual Header Confirmation */}
-      <div className="text-center mb-5 mt-4">
+      <div className="text-center mb-5 mt-4 shrink-0">
         <div className="w-12 h-12 rounded-full bg-[#00e701]/10 border border-[#00e701] flex items-center justify-center mx-auto mb-2.5">
           <svg className="w-6 h-6 text-[#00e701]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -151,7 +151,7 @@ export function FinalSlip({
       {/* Visually Stunning Receipt Card to Export */}
       <div
         ref={receiptRef}
-        className="w-full bg-[#1a2c38] border-2 border-slate-700/80 rounded-2xl p-6 shadow-2xl relative overflow-hidden flex flex-col gap-4"
+        className="w-full bg-[#1a2c38] border-2 border-slate-700/80 rounded-2xl p-4 sm:p-6 shadow-2xl relative overflow-hidden flex flex-col gap-3.5 sm:gap-4 shrink-0"
       >
         {/* Receipt header overlay */}
         <div className="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -196,7 +196,7 @@ export function FinalSlip({
         </div>
 
         {/* Selected Bets List */}
-        <div className="flex flex-col gap-3.5 my-2">
+        <div className="flex flex-col gap-2.5 sm:gap-3.5 my-1.5 sm:my-2">
           {acceptedBets.map((bet, idx) => {
             const icon = getBetIcon(bet.market);
             const isRedCardBet = bet.market.toLowerCase().includes("red card") || bet.market.toLowerCase().includes("sent off");
@@ -421,7 +421,7 @@ export function FinalSlip({
       </div>
 
       {/* Share and Restart Controls */}
-      <div className="w-full flex flex-col gap-2 mt-4 pointer-events-auto">
+      <div className="w-full flex flex-col gap-2 mt-4 pointer-events-auto shrink-0">
         <button
           onClick={handleShare}
           disabled={sharing}

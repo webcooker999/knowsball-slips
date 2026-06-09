@@ -82,7 +82,7 @@ export default function App() {
       <SlimHeader picksCount={acceptedBets.length} />
 
       {/* Primary Interaction Flow Area */}
-      <div className="w-full flex-grow flex flex-col justify-center items-center overflow-hidden pointer-events-auto px-4">
+      <div className="w-full flex-1 min-h-0 flex flex-col justify-center items-center overflow-hidden pointer-events-auto px-4">
         
         <AnimatePresence mode="wait">
           {!isSlipFinalized && acceptedBets.length < 10 ? (
