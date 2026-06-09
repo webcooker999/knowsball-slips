@@ -29,6 +29,15 @@ export default function App() {
     });
   };
 
+  // Manually add bet to slip
+  const handleAddBet = (bet: PropBet) => {
+    setAcceptedBets((prev) => {
+      if (prev.length >= 10) return prev;
+      if (prev.find((b) => b.id === bet.id)) return prev;
+      return [...prev, bet];
+    });
+  };
+
   // Swiped left -> Skip bet
   const handleRejectBet = (bet: PropBet) => {
     console.log("Skipped bet:", bet.market);
@@ -108,6 +117,7 @@ export default function App() {
               onStakeChange={setStake}
               onRemoveBet={handleRemoveBet}
               onContinueDrafting={() => setIsSlipFinalized(false)}
+              onAddBet={handleAddBet}
             />
           )}
         </AnimatePresence>
