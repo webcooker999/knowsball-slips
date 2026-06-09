@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Neon Glow Utilities */
+.neon-border-green {
+  border: 1px solid #00e701;
+  box-shadow: 0 0 15px rgba(0, 231, 1, 0.25), inset 0 0 15px rgba(0, 231, 1, 0.1);
+}
+
+.neon-glow-btn {
+  background-color: #00e701;
+  color: #000000;
+  box-shadow: 0 0 20px rgba(0, 231, 1, 0.4);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neon-glow-btn:hover {
+  background-color: #1aff1c;
+  box-shadow: 0 0 30px rgba(0, 231, 1, 0.7);
+  transform: translateY(-2px);
+}
+
+.neon-glow-btn:active {
+  transform: translateY(0);
+}
+
+/* Custom Scrollbar and layout fixes */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
