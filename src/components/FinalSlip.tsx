@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import confetti from "canvas-confetti";
 import type { PropBet } from "../data/bets";
@@ -38,7 +38,6 @@ interface FinalSlipProps {
   onStakeChange?: (stake: number) => void;
   onRemoveBet?: (betId: string) => void;
   onContinueDrafting?: () => void;
-  onAddBet?: (bet: PropBet) => void;
 }
 
 export function FinalSlip({
@@ -48,72 +47,10 @@ export function FinalSlip({
   stake,
   onStakeChange,
   onRemoveBet,
-  onContinueDrafting,
-  onAddBet
+  onContinueDrafting
 }: FinalSlipProps) {
   const receiptRef = useRef<HTMLDivElement>(null);
   const [sharing, setSharing] = useState(false);
-
-  // States for manual parlay leg creation
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [customMatch, setCustomMatch] = useState("");
-  const [customMarket, setCustomMarket] = useState("");
-  const [americanInput, setAmericanInput] = useState("");
-  const [decimalInput, setDecimalInput] = useState("");
-  const [customUrl, setCustomUrl] = useState("");
-
-  // Helpers for live American/Decimal odds conversion
-  const handleAmericanChange = (val: string) => {
-    setAmericanInput(val);
-    const cleanVal = val.trim().replace("+", "");
-    const num = parseInt(cleanVal, 10);
-    if (!isNaN(num) && (num >= 100 || num <= -100)) {
-      const dec = num >= 100 ? 1 + num / 100 : 1 + 100 / Math.abs(num);
-      setDecimalInput(dec.toFixed(2));
-    } else {
-      setDecimalInput("");
-    }
-  };
-
-  const handleDecimalChange = (val: string) => {
-    setDecimalInput(val);
-    const dec = parseFloat(val);
-    if (!isNaN(dec) && dec > 1.0) {
-      if (dec >= 2.0) {
-        setAmericanInput(`+${Math.round((dec - 1) * 100)}`);
-      } else {
-        setAmericanInput(`-${Math.round(100 / (dec - 1))}`);
-      }
-    } else {
-      setAmericanInput("");
-    }
-  };
-
-  const handleSaveCustomBet = () => {
-    if (!customMatch.trim() || !customMarket.trim() || !decimalInput.trim()) {
-      alert("Please fill in the Match, Market, and valid Odds.");
-      return;
-    }
-    const dec = parseFloat(decimalInput);
-    if (isNaN(dec) || dec <= 1.0) {
-      alert("Please enter decimal odds greater than 1.0.");
-      return;
-    }
-
-    const newBet: PropBet = {
-      id: `custom-bet-${Date.now()}`,
-      match: customMatch.trim().toUpperCase(),
-      market: customMarket.trim(),
-      oddsDecimal: dec,
-      oddsAmerican: americanInput.trim() || `+${Math.round((dec - 1) * 100)}`,
-      teamFlagLeft: "https://flagcdn.com/w80/un.png",
-      teamFlagRight: "https://flagcdn.com/w80/un.png",
-      betUrl: customUrl.trim() || undefined,
-    };
-
-    onAddBet?.(newBet);
-    setIsAddModalOpen(false);
-  };
 
   // Trigger continuous celebratory slot machine confetti bursts on mount!
   useEffect(() => {
@@ -350,22 +287,6 @@ export function FinalSlip({
               </div>
             );
           })}
-
-          {acceptedBets.length < 10 && onAddBet && (
-            <button
-              onClick={() => {
-                setCustomMatch("");
-                setCustomMarket("");
-                setAmericanInput("");
-                setDecimalInput("");
-                setCustomUrl("");
-                setIsAddModalOpen(true);
-              }}
-              className="w-full py-2.5 px-4 mt-2 bg-slate-900/40 hover:bg-slate-900/80 border border-dashed border-[#00e701]/30 hover:border-[#00e701]/60 rounded-xl text-slate-450 hover:text-[#00e701] font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer pointer-events-auto select-none"
-            >
-              <span>➕</span> ADD CUSTOM LEG
-            </button>
-          )}
         </div>
 
         {/* Receipt Footer Calculations - JACKPOT STYLE */}
@@ -541,122 +462,7 @@ export function FinalSlip({
         </a>
       </div>
 
-      {/* Add Custom Leg Modal */}
-      <AnimatePresence>
-        {isAddModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsAddModalOpen(false)}
-              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
-            />
 
-            {/* Modal Body */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-sm bg-[#1a2c38] border-2 border-slate-700/80 rounded-2xl p-6 shadow-2xl flex flex-col gap-4 z-50 text-left"
-            >
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="text-xs font-black text-[#00e701] tracking-widest uppercase">
-                  ADD CUSTOM PARLAY LEG
-                </span>
-                <button
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="text-slate-400 hover:text-white transition-colors cursor-pointer text-sm font-bold"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Form Fields */}
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
-                    MATCH / EVENT
-                  </label>
-                  <input
-                    type="text"
-                    value={customMatch}
-                    onChange={(e) => setCustomMatch(e.target.value)}
-                    placeholder="e.g. REAL MADRID vs BARCELONA"
-                    className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all font-bold uppercase"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
-                    PICK / MARKET
-                  </label>
-                  <input
-                    type="text"
-                    value={customMarket}
-                    onChange={(e) => setCustomMarket(e.target.value)}
-                    placeholder="e.g. Vinícius Jr. to Score Anytime"
-                    className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all font-bold"
-                  />
-                </div>
-
-                {/* Odds Fields Grid */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
-                      AMERICAN ODDS
-                    </label>
-                    <input
-                      type="text"
-                      value={americanInput}
-                      onChange={(e) => handleAmericanChange(e.target.value)}
-                      placeholder="e.g. +150"
-                      className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all font-mono font-bold"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
-                      DECIMAL ODDS
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="1.01"
-                      value={decimalInput}
-                      onChange={(e) => handleDecimalChange(e.target.value)}
-                      placeholder="e.g. 2.50"
-                      className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all font-mono font-bold"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
-                    BET LINK / URL (OPTIONAL)
-                  </label>
-                  <input
-                    type="url"
-                    value={customUrl}
-                    onChange={(e) => setCustomUrl(e.target.value)}
-                    placeholder="e.g. https://stake.com/sports/..."
-                    className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <button
-                onClick={handleSaveCustomBet}
-                className="w-full py-3 px-4 mt-2 rounded-xl bg-[#00e701] hover:bg-[#00c201] text-black font-black text-xs uppercase tracking-widest transition-colors active:scale-98 cursor-pointer shadow-[0_0_20px_rgba(0,231,1,0.3)] font-bold"
-              >
-                ADD TO TICKET
-              </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
     </div>
   );
