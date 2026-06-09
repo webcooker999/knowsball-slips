@@ -250,12 +250,19 @@ export function FinalSlip({
                       }}
                     />
                   )}
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="text-[9.5px] font-black text-[#00e701] font-mono leading-none">
-                      {bet.oddsAmerican}
+                  <div className="flex flex-col items-end gap-1.5">
+                    <span className="text-[10px] font-black text-slate-400 font-mono leading-none">
+                      {bet.oddsDecimal.toFixed(2)}x
                     </span>
                     <a
-                      href={bet.betUrl || "https://stake.com"}
+                      href={(() => {
+                        const targetUrl = bet.betUrl || "https://stake.com";
+                        if (targetUrl.includes("stake.com")) {
+                          const separator = targetUrl.includes("?") ? "&" : "?";
+                          return targetUrl.includes("c=knowsball") ? targetUrl : `${targetUrl}${separator}c=knowsball`;
+                        }
+                        return targetUrl;
+                      })()}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={async () => {
@@ -267,7 +274,7 @@ export function FinalSlip({
                           console.error("Failed to copy", err);
                         }
                       }}
-                      className="px-1.5 py-0.5 rounded bg-[#00e701]/10 border border-[#00e701]/30 hover:bg-[#00e701]/25 hover:border-[#00e701]/60 text-[#00e701] font-black text-[7.5px] uppercase tracking-wider transition-all flex items-center gap-0.5 select-none cursor-pointer"
+                      className="px-2.5 py-1 rounded bg-[#00e701] hover:bg-[#00c201] text-black font-black text-[9px] uppercase tracking-wider transition-all flex items-center gap-0.5 select-none cursor-pointer shadow-[0_0_8px_rgba(0,231,1,0.2)]"
                       title="Copy details & bet on Stake"
                     >
                       <span>⚡</span> BET
@@ -447,7 +454,7 @@ export function FinalSlip({
       {/* Massive Pulsing Casino Play Affiliate Call to Action (Fixed bottom) */}
       <div className="fixed bottom-6 left-0 right-0 z-30 px-4 pointer-events-auto max-w-sm mx-auto">
         <a
-          href="https://stake.com"
+          href="https://stake.com?c=knowsball"
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full text-center"
