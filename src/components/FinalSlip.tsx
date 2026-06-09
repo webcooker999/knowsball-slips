@@ -60,6 +60,7 @@ export function FinalSlip({
   const [customMarket, setCustomMarket] = useState("");
   const [americanInput, setAmericanInput] = useState("");
   const [decimalInput, setDecimalInput] = useState("");
+  const [customUrl, setCustomUrl] = useState("");
 
   // Helpers for live American/Decimal odds conversion
   const handleAmericanChange = (val: string) => {
@@ -107,6 +108,7 @@ export function FinalSlip({
       oddsAmerican: americanInput.trim() || `+${Math.round((dec - 1) * 100)}`,
       teamFlagLeft: "https://flagcdn.com/w80/un.png",
       teamFlagRight: "https://flagcdn.com/w80/un.png",
+      betUrl: customUrl.trim() || undefined,
     };
 
     onAddBet?.(newBet);
@@ -300,7 +302,7 @@ export function FinalSlip({
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0 z-20">
+                <div className="flex items-center gap-2.5 shrink-0 z-20">
                   {displayImage && (
                     <img
                       src={displayImage}
@@ -311,13 +313,33 @@ export function FinalSlip({
                       }}
                     />
                   )}
-                  <span className="text-[9.5px] font-black text-[#00e701] font-mono">
-                    {bet.oddsAmerican}
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-[9.5px] font-black text-[#00e701] font-mono leading-none">
+                      {bet.oddsAmerican}
+                    </span>
+                    <a
+                      href={bet.betUrl || "https://stake.com"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={async () => {
+                        // Automatically copy parlay details to clipboard on click
+                        try {
+                          const copyText = `${bet.match} - ${bet.market}`;
+                          await navigator.clipboard.writeText(copyText);
+                        } catch (err) {
+                          console.error("Failed to copy", err);
+                        }
+                      }}
+                      className="px-1.5 py-0.5 rounded bg-[#00e701]/10 border border-[#00e701]/30 hover:bg-[#00e701]/25 hover:border-[#00e701]/60 text-[#00e701] font-black text-[7.5px] uppercase tracking-wider transition-all flex items-center gap-0.5 select-none cursor-pointer"
+                      title="Copy details & bet on Stake"
+                    >
+                      <span>⚡</span> BET
+                    </a>
+                  </div>
                   {onRemoveBet && (
                     <button
                       onClick={() => onRemoveBet(bet.id)}
-                      className="w-5 h-5 rounded bg-slate-800/80 border border-slate-700/60 hover:bg-red-950/60 hover:border-red-500/40 text-slate-450 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer text-[10px] ml-1 select-none z-30"
+                      className="w-5 h-5 rounded bg-slate-800/80 border border-slate-700/60 hover:bg-red-950/60 hover:border-red-500/40 text-slate-450 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer text-[10px] select-none z-30"
                       title="Remove pick"
                     >
                       ✕
@@ -336,6 +358,7 @@ export function FinalSlip({
                 setCustomMarket("");
                 setAmericanInput("");
                 setDecimalInput("");
+                setCustomUrl("");
                 setIsAddModalOpen(true);
               }}
               className="w-full py-2.5 px-4 mt-2 bg-slate-900/40 hover:bg-slate-900/80 border border-dashed border-[#00e701]/30 hover:border-[#00e701]/60 rounded-xl text-slate-450 hover:text-[#00e701] font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer pointer-events-auto select-none"
@@ -607,6 +630,19 @@ export function FinalSlip({
                       className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all font-mono font-bold"
                     />
                   </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">
+                    BET LINK / URL (OPTIONAL)
+                  </label>
+                  <input
+                    type="url"
+                    value={customUrl}
+                    onChange={(e) => setCustomUrl(e.target.value)}
+                    placeholder="e.g. https://stake.com/sports/..."
+                    className="w-full bg-slate-900 border border-slate-750 px-3.5 py-2 rounded-xl text-xs text-white placeholder-slate-600 outline-none focus:border-[#00e701] focus:shadow-[0_0_12px_rgba(0,231,1,0.1)] transition-all"
+                  />
                 </div>
               </div>
 
