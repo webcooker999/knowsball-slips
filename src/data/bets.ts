@@ -1004,7 +1004,7 @@ export function getDailyBets(): PropBet[] {
   
   // Calculate day difference relative to start date (June 11, 2026)
   const todayStart = new Date(todayNY.getFullYear(), todayNY.getMonth(), todayNY.getDate());
-  const tournamentStart = new Date(2026, 5, 11); // June is month 5 (0-indexed)
+  const tournamentStart = new Date(2026, 5, 10); // June is month 5 (0-indexed). Shifted to June 10 so June 11 maps to June 12 (Day 2)
   
   const diffTime = todayStart.getTime() - tournamentStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -1015,7 +1015,7 @@ export function getDailyBets(): PropBet[] {
   if (diffDays < 0) {
     // Before the tournament starts, show Day 1 (June 11)
     dayIndex = 0;
-    targetDate = new Date(tournamentStart);
+    targetDate = new Date(2026, 5, 11);
   } else {
     // During or after the tournament, wrap around the 10 days of bets
     dayIndex = diffDays % 10;

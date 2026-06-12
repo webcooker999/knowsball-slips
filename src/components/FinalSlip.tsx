@@ -298,7 +298,7 @@ export function FinalSlip({
 
         {/* Receipt Footer Calculations - JACKPOT STYLE */}
         <div className="border-t border-slate-800/80 pt-4 mt-2 relative">
-          
+
           {/* Soccer balls, trophies, and money emojis rising from the payout */}
           {[...Array(10)].map((_, i) => {
             const emojis = ["🏆", "⚽", "💵", "⚽", "💰", "⚽", "💵", "🏆", "💸", "⚽"];
@@ -307,28 +307,28 @@ export function FinalSlip({
             const leftPos = [15, 75, 45, 35, 60, 85, 25, 65, 50, 92][i % 10];
             const delay = i * 0.28;
             const duration = 2.0 + (i % 3) * 0.3;
-            
+
             return (
               <motion.div
                 key={i}
                 className="absolute z-20 pointer-events-none select-none text-[15px]"
-                initial={{ 
-                  opacity: 0, 
+                initial={{
+                  opacity: 0,
                   scale: 0.3,
                   rotate: 0,
                   x: 0,
                   y: 10
                 }}
-                animate={{ 
-                  opacity: [0, 1, 1, 0], 
+                animate={{
+                  opacity: [0, 1, 1, 0],
                   scale: [0.3, 1.2, 1.0, 0],
                   rotate: isSoccerBall ? [0, 180, 360, 540, 720] : [-15, 15, -15, 15, 0],
                   x: i % 2 === 0 ? [0, -8, -20, -35] : [0, 8, 20, 35],
                   y: [10, -25, -75, -130],
                 }}
-                transition={{ 
-                  duration: duration, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: duration,
+                  repeat: Infinity,
                   delay: delay,
                   ease: "easeOut"
                 }}
@@ -343,12 +343,12 @@ export function FinalSlip({
           })}
 
           <div className="relative z-10 overflow-hidden bg-gradient-to-br from-slate-950 via-[#0a2710] to-slate-950 border-2 border-[#00e701] rounded-xl p-4 shadow-[0_0_25px_rgba(0,231,1,0.25)]">
-            
+
             {/* Blinking/Glowing border indicator overlay */}
-            <motion.div 
+            <motion.div
               animate={{ opacity: [0.15, 0.4, 0.15] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[#00e701]/10 pointer-events-none" 
+              className="absolute inset-0 bg-[#00e701]/10 pointer-events-none"
             />
 
             {/* Glowing spot lights */}
@@ -383,7 +383,7 @@ export function FinalSlip({
                 </span>
               </div>
               <div className="flex flex-col items-end">
-                <motion.span 
+                <motion.span
                   animate={{ scale: [1, 1.03, 1] }}
                   transition={{ duration: 1.0, repeat: Infinity, ease: "easeInOut" }}
                   className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#00e701] via-yellow-300 to-amber-300 font-mono tracking-tight drop-shadow-[0_0_12px_rgba(0,231,1,0.4)]"
@@ -395,7 +395,7 @@ export function FinalSlip({
 
             {/* Retro animated soccer/trophy winner badge */}
             <div className="absolute top-1.5 right-2.5 flex items-center gap-1 select-none">
-              <motion.span 
+              <motion.span
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
                 className="text-[9px]"
@@ -405,7 +405,7 @@ export function FinalSlip({
               <span className="text-[7px] text-[#00e701] font-black tracking-widest uppercase">
                 WINNER
               </span>
-              <motion.span 
+              <motion.span
                 animate={{ y: [0, -3, 0], scale: [1, 1.2, 1] }}
                 transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
                 className="text-[9px]"
@@ -450,26 +450,6 @@ export function FinalSlip({
           </button>
         </div>
       </div>
-
-      {/* Massive Pulsing Casino Play Affiliate Call to Action (Fixed bottom) */}
-      <div className="fixed bottom-6 left-0 right-0 z-30 px-4 pointer-events-auto max-w-sm mx-auto">
-        <a
-          href="https://stake.com?c=knowsball"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center"
-        >
-          <motion.div
-            animate={{ scale: [1, 1.02, 1] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            className="py-4 px-6 rounded-2xl neon-glow-btn text-black font-black text-xs uppercase tracking-widest cursor-pointer shadow-[0_0_25px_rgba(0,231,1,0.5)]"
-          >
-            PLAY THIS SLIP FOR REAL. CLAIM $200 DEPOSIT MATCH ➡️
-          </motion.div>
-        </a>
-      </div>
-
-
 
     </div>
   );
