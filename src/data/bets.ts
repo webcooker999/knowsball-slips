@@ -502,7 +502,7 @@ export const MASTER_BETS: PropBet[] = [
   },
 
   // ==========================================
-  // DAY 6 (June 16) - 4 Matches: France vs Senegal (3), Iraq vs Norway (3), Argentina vs Algeria (2), Austria vs Jordan (2) (3/3/2/2)
+  // DAY 6 (June 16) - 4 Matches: France vs Senegal (3), Iraq vs Norway (3), Argentina vs Algeria (3), Austria vs Jordan (1) (3/3/3/1)
   // ==========================================
   {
     id: "wc-bet-51",
@@ -517,18 +517,19 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-52",
     match: "FRANCE vs SENEGAL",
-    market: "France to Win",
-    oddsDecimal: 1.40,
-    oddsAmerican: "-250",
+    market: "Antoine Griezmann to have Over 1.5 Shots on Target",
+    oddsDecimal: 2.10,
+    oddsAmerican: "+110",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/194/765/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/fr.png",
     teamFlagRight: "https://flagcdn.com/w80/sn.png",
   },
   {
     id: "wc-bet-53",
     match: "FRANCE vs SENEGAL",
-    market: "Both Teams to Score - No",
-    oddsDecimal: 1.65,
-    oddsAmerican: "-154",
+    market: "France to Win to Nil",
+    oddsDecimal: 2.15,
+    oddsAmerican: "+115",
     teamFlagLeft: "https://flagcdn.com/w80/fr.png",
     teamFlagRight: "https://flagcdn.com/w80/sn.png",
   },
@@ -536,8 +537,8 @@ export const MASTER_BETS: PropBet[] = [
     id: "wc-bet-54",
     match: "IRAQ vs NORWAY",
     market: "Erling Haaland to Score Anytime",
-    oddsDecimal: 1.75,
-    oddsAmerican: "-133",
+    oddsDecimal: 1.65,
+    oddsAmerican: "-154",
     playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/239/085/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/iq.png",
     teamFlagRight: "https://flagcdn.com/w80/no.png",
@@ -545,18 +546,19 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-55",
     match: "IRAQ vs NORWAY",
-    market: "Norway to Win",
-    oddsDecimal: 1.50,
-    oddsAmerican: "-200",
+    market: "Martin Ødegaard to make 1+ Assist",
+    oddsDecimal: 2.25,
+    oddsAmerican: "+125",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/222/492/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/iq.png",
     teamFlagRight: "https://flagcdn.com/w80/no.png",
   },
   {
     id: "wc-bet-56",
     match: "IRAQ vs NORWAY",
-    market: "Over 2.5 Goals in Match",
-    oddsDecimal: 1.75,
-    oddsAmerican: "-133",
+    market: "Norway to Win and Over 2.5 Goals",
+    oddsDecimal: 1.80,
+    oddsAmerican: "-125",
     teamFlagLeft: "https://flagcdn.com/w80/iq.png",
     teamFlagRight: "https://flagcdn.com/w80/no.png",
   },
@@ -573,27 +575,29 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-58",
     match: "ARGENTINA vs ALGERIA",
-    market: "Argentina to Win",
-    oddsDecimal: 1.35,
-    oddsAmerican: "-286",
+    market: "Lautaro Martínez to Score Anytime",
+    oddsDecimal: 2.20,
+    oddsAmerican: "+120",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/231/478/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/ar.png",
     teamFlagRight: "https://flagcdn.com/w80/dz.png",
   },
   {
     id: "wc-bet-59",
-    match: "AUSTRIA vs JORDAN",
-    market: "Austria to Win",
+    match: "ARGENTINA vs ALGERIA",
+    market: "Argentina Over 1.5 Goals",
     oddsDecimal: 1.45,
     oddsAmerican: "-222",
-    teamFlagLeft: "https://flagcdn.com/w80/at.png",
-    teamFlagRight: "https://flagcdn.com/w80/jo.png",
+    teamFlagLeft: "https://flagcdn.com/w80/ar.png",
+    teamFlagRight: "https://flagcdn.com/w80/dz.png",
   },
   {
     id: "wc-bet-60",
     match: "AUSTRIA vs JORDAN",
-    market: "Over 2.5 Goals in Match",
-    oddsDecimal: 1.80,
-    oddsAmerican: "-125",
+    market: "Marcel Sabitzer to Score or Assist",
+    oddsDecimal: 1.90,
+    oddsAmerican: "-111",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/205/498/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/at.png",
     teamFlagRight: "https://flagcdn.com/w80/jo.png",
   },
@@ -1004,7 +1008,7 @@ export function getDailyBets(): PropBet[] {
   
   // Calculate day difference relative to start date (June 11, 2026)
   const todayStart = new Date(todayNY.getFullYear(), todayNY.getMonth(), todayNY.getDate());
-  const tournamentStart = new Date(2026, 5, 10); // June is month 5 (0-indexed). Shifted to June 10 so June 11 maps to June 12 (Day 2)
+  const tournamentStart = new Date(2026, 5, 11); // June is month 5 (0-indexed). Aligned to June 11 so matches display on their actual scheduled date
   
   const diffTime = todayStart.getTime() - tournamentStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
