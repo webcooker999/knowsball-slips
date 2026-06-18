@@ -724,18 +724,19 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-73",
     match: "CZECHIA vs SOUTH AFRICA",
-    market: "Both Teams to Score - Yes",
+    market: "Patrik Schick to Score or Assist",
     oddsDecimal: 1.80,
     oddsAmerican: "-125",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/234/236/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/cz.png",
     teamFlagRight: "https://flagcdn.com/w80/za.png",
   },
   {
     id: "wc-bet-74",
     match: "SWITZERLAND vs BOSNIA",
-    market: "Granit Xhaka to Score Anytime",
-    oddsDecimal: 4.50,
-    oddsAmerican: "+350",
+    market: "Granit Xhaka to Score or Assist",
+    oddsDecimal: 2.20,
+    oddsAmerican: "+120",
     playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/199/503/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/ch.png",
     teamFlagRight: "https://flagcdn.com/w80/ba.png",
@@ -743,18 +744,19 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-75",
     match: "SWITZERLAND vs BOSNIA",
-    market: "Switzerland to Win",
-    oddsDecimal: 1.70,
-    oddsAmerican: "-143",
+    market: "Switzerland to Win to Nil",
+    oddsDecimal: 2.30,
+    oddsAmerican: "+130",
     teamFlagLeft: "https://flagcdn.com/w80/ch.png",
     teamFlagRight: "https://flagcdn.com/w80/ba.png",
   },
   {
     id: "wc-bet-76",
     match: "SWITZERLAND vs BOSNIA",
-    market: "Over 8.5 Corners in Match",
-    oddsDecimal: 1.80,
-    oddsAmerican: "-125",
+    market: "Granit Xhaka to make 1+ Assist",
+    oddsDecimal: 2.75,
+    oddsAmerican: "+175",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/199/503/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/ch.png",
     teamFlagRight: "https://flagcdn.com/w80/ba.png",
   },
@@ -771,9 +773,10 @@ export const MASTER_BETS: PropBet[] = [
   {
     id: "wc-bet-78",
     match: "CANADA vs QATAR",
-    market: "Canada to Win",
-    oddsDecimal: 1.60,
-    oddsAmerican: "-167",
+    market: "Alphonso Davies to Score or Assist",
+    oddsDecimal: 2.10,
+    oddsAmerican: "+110",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/234/396/24_120.png",
     teamFlagLeft: "https://flagcdn.com/w80/ca.png",
     teamFlagRight: "https://flagcdn.com/w80/qa.png",
   },
@@ -1013,8 +1016,8 @@ export function getDailyBets(): PropBet[] {
   const diffTime = todayStart.getTime() - tournamentStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   
-  let dayIndex = 0;
-  let targetDate = new Date(todayStart);
+  let dayIndex: number;
+  let targetDate: Date;
   
   if (diffDays < 0) {
     // Before the tournament starts, show Day 1 (June 11)
