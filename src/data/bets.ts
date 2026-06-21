@@ -995,6 +995,200 @@ export const MASTER_BETS: PropBet[] = [
     teamFlagLeft: "https://flagcdn.com/w80/tn.png",
     teamFlagRight: "https://flagcdn.com/w80/jp.png",
   },
+  // ==========================================
+  // DAY 11 (June 21) - 4 Matches: Spain vs Saudi Arabia (3), Belgium vs Iran (3), Uruguay vs Cape Verde (2), New Zealand vs Egypt (2) (3/3/2/2)
+  // ==========================================
+  {
+    id: "wc-bet-101",
+    match: "SPAIN vs SAUDI ARABIA",
+    market: "Nico Williams to Score Anytime",
+    oddsDecimal: 2.50,
+    oddsAmerican: "+150",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/256/516/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/es.png",
+    teamFlagRight: "https://flagcdn.com/w80/sa.png",
+  },
+  {
+    id: "wc-bet-102",
+    match: "SPAIN vs SAUDI ARABIA",
+    market: "Spain to Win to Nil",
+    oddsDecimal: 1.65,
+    oddsAmerican: "-154",
+    teamFlagLeft: "https://flagcdn.com/w80/es.png",
+    teamFlagRight: "https://flagcdn.com/w80/sa.png",
+  },
+  {
+    id: "wc-bet-103",
+    match: "SPAIN vs SAUDI ARABIA",
+    market: "Over 2.5 Goals in Match",
+    oddsDecimal: 1.70,
+    oddsAmerican: "-143",
+    teamFlagLeft: "https://flagcdn.com/w80/es.png",
+    teamFlagRight: "https://flagcdn.com/w80/sa.png",
+  },
+  {
+    id: "wc-bet-104",
+    match: "BELGIUM vs IRAN",
+    market: "Romelu Lukaku to Score Anytime",
+    oddsDecimal: 2.10,
+    oddsAmerican: "+110",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/192/105/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/be.png",
+    teamFlagRight: "https://flagcdn.com/w80/ir.png",
+  },
+  {
+    id: "wc-bet-105",
+    match: "BELGIUM vs IRAN",
+    market: "Belgium to Win",
+    oddsDecimal: 1.40,
+    oddsAmerican: "-250",
+    teamFlagLeft: "https://flagcdn.com/w80/be.png",
+    teamFlagRight: "https://flagcdn.com/w80/ir.png",
+  },
+  {
+    id: "wc-bet-106",
+    match: "BELGIUM vs IRAN",
+    market: "Both Teams to Score - No",
+    oddsDecimal: 1.80,
+    oddsAmerican: "-125",
+    teamFlagLeft: "https://flagcdn.com/w80/be.png",
+    teamFlagRight: "https://flagcdn.com/w80/ir.png",
+  },
+  {
+    id: "wc-bet-107",
+    match: "URUGUAY vs CAPE VERDE",
+    market: "Darwin Núñez to Score Anytime",
+    oddsDecimal: 2.00,
+    oddsAmerican: "+100",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/253/072/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/uy.png",
+    teamFlagRight: "https://flagcdn.com/w80/cv.png",
+  },
+  {
+    id: "wc-bet-108",
+    match: "URUGUAY vs CAPE VERDE",
+    market: "Uruguay Over 1.5 Goals",
+    oddsDecimal: 1.55,
+    oddsAmerican: "-182",
+    teamFlagLeft: "https://flagcdn.com/w80/uy.png",
+    teamFlagRight: "https://flagcdn.com/w80/cv.png",
+  },
+  {
+    id: "wc-bet-109",
+    match: "NEW ZEALAND vs EGYPT",
+    market: "Mohamed Salah to Score Anytime",
+    oddsDecimal: 2.10,
+    oddsAmerican: "+110",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/209/331/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/nz.png",
+    teamFlagRight: "https://flagcdn.com/w80/eg.png",
+  },
+  {
+    id: "wc-bet-110",
+    match: "NEW ZEALAND vs EGYPT",
+    market: "Egypt to Win",
+    oddsDecimal: 1.60,
+    oddsAmerican: "-167",
+    teamFlagLeft: "https://flagcdn.com/w80/nz.png",
+    teamFlagRight: "https://flagcdn.com/w80/eg.png",
+  },
+
+  // ==========================================
+  // DAY 12 (June 22) - 3 Matches: Argentina vs Austria (3), France vs Iraq (3), Norway vs Senegal (4) (3/3/4)
+  // ==========================================
+  {
+    id: "wc-bet-111",
+    match: "ARGENTINA vs AUSTRIA",
+    market: "Lionel Messi to Score Anytime",
+    oddsDecimal: 1.95,
+    oddsAmerican: "-105",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/158/023/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/ar.png",
+    teamFlagRight: "https://flagcdn.com/w80/at.png",
+  },
+  {
+    id: "wc-bet-112",
+    match: "ARGENTINA vs AUSTRIA",
+    market: "Argentina to Win",
+    oddsDecimal: 1.50,
+    oddsAmerican: "-200",
+    teamFlagLeft: "https://flagcdn.com/w80/ar.png",
+    teamFlagRight: "https://flagcdn.com/w80/at.png",
+  },
+  {
+    id: "wc-bet-113",
+    match: "ARGENTINA vs AUSTRIA",
+    market: "Both Teams to Score - Yes",
+    oddsDecimal: 1.90,
+    oddsAmerican: "-111",
+    teamFlagLeft: "https://flagcdn.com/w80/ar.png",
+    teamFlagRight: "https://flagcdn.com/w80/at.png",
+  },
+  {
+    id: "wc-bet-114",
+    match: "FRANCE vs IRAQ",
+    market: "Kylian Mbappé to Score Anytime",
+    oddsDecimal: 1.60,
+    oddsAmerican: "-167",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/231/747/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/fr.png",
+    teamFlagRight: "https://flagcdn.com/w80/iq.png",
+  },
+  {
+    id: "wc-bet-115",
+    match: "FRANCE vs IRAQ",
+    market: "France Over 2.5 Goals",
+    oddsDecimal: 1.75,
+    oddsAmerican: "-133",
+    teamFlagLeft: "https://flagcdn.com/w80/fr.png",
+    teamFlagRight: "https://flagcdn.com/w80/iq.png",
+  },
+  {
+    id: "wc-bet-116",
+    match: "FRANCE vs IRAQ",
+    market: "France to Win to Nil",
+    oddsDecimal: 1.85,
+    oddsAmerican: "-118",
+    teamFlagLeft: "https://flagcdn.com/w80/fr.png",
+    teamFlagRight: "https://flagcdn.com/w80/iq.png",
+  },
+  {
+    id: "wc-bet-117",
+    match: "NORWAY vs SENEGAL",
+    market: "Erling Haaland to Score Anytime",
+    oddsDecimal: 1.85,
+    oddsAmerican: "-118",
+    playerHeadshot: "https://images.weserv.nl/?url=cdn.sofifa.net/players/239/085/24_120.png",
+    teamFlagLeft: "https://flagcdn.com/w80/no.png",
+    teamFlagRight: "https://flagcdn.com/w80/sn.png",
+  },
+  {
+    id: "wc-bet-118",
+    match: "NORWAY vs SENEGAL",
+    market: "Both Teams to Score - Yes",
+    oddsDecimal: 1.80,
+    oddsAmerican: "-125",
+    teamFlagLeft: "https://flagcdn.com/w80/no.png",
+    teamFlagRight: "https://flagcdn.com/w80/sn.png",
+  },
+  {
+    id: "wc-bet-119",
+    match: "NORWAY vs SENEGAL",
+    market: "Over 8.5 Corners in Match",
+    oddsDecimal: 1.70,
+    oddsAmerican: "-143",
+    teamFlagLeft: "https://flagcdn.com/w80/no.png",
+    teamFlagRight: "https://flagcdn.com/w80/sn.png",
+  },
+  {
+    id: "wc-bet-120",
+    match: "NORWAY vs SENEGAL",
+    market: "Norway to Win or Draw",
+    oddsDecimal: 1.45,
+    oddsAmerican: "-222",
+    teamFlagLeft: "https://flagcdn.com/w80/no.png",
+    teamFlagRight: "https://flagcdn.com/w80/sn.png",
+  },
 ];
 
 function getGMT4Date(): Date {
@@ -1024,8 +1218,9 @@ export function getDailyBets(): PropBet[] {
     dayIndex = 0;
     targetDate = new Date(2026, 5, 11);
   } else {
-    // During or after the tournament, wrap around the 10 days of bets
-    dayIndex = diffDays % 10;
+    // During or after the tournament, wrap around the total days of bets dynamically
+    const totalDays = Math.floor(MASTER_BETS.length / 10);
+    dayIndex = diffDays % totalDays;
     // targetDate is the actual date mapped to this day index: June 11 + dayIndex
     targetDate = new Date(2026, 5, 11 + dayIndex);
   }
