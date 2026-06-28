@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { PropBet } from "../data/bets";
 
 export interface ForceSwipeInfo {
@@ -108,6 +108,58 @@ export function SwipeableCard({
     }
   }, [forceSwipe, isBackground, bet.id]);
 
+  // Countdown timer and live status state
+  const [timeStatus, setTimeStatus] = useState<string>("");
+  const [statusBadge, setStatusBadge] = useState<{ label: string; style: string } | null>(null);
+
+  useEffect(() => {
+    const updateStatus = () => {
+      const now = new Date();
+      const kickoff = new Date(bet.kickoffTime);
+      const diffMs = kickoff.getTime() - now.getTime();
+
+      if (diffMs > 0) {
+        // Upcoming match
+        const totalSeconds = Math.floor(diffMs / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+        if (hours < 24) {
+          setTimeStatus(`Starts in ${hours > 0 ? `${hours}h ` : ""}${minutes}m`);
+          setStatusBadge({
+            label: "UPCOMING",
+            style: "bg-blue-500/10 text-blue-400 border-blue-500/25"
+          });
+        } else {
+          const timeStr = kickoff.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+          setTimeStatus(`Starts at ${timeStr}`);
+          setStatusBadge({
+            label: "SCHEDULED",
+            style: "bg-slate-800 text-slate-400 border-slate-700/50"
+          });
+        }
+      } else if (diffMs <= 0 && diffMs > -120 * 60 * 1000) {
+        // Live (first 2 hours after kickoff)
+        setTimeStatus("Live in progress");
+        setStatusBadge({
+          label: "LIVE",
+          style: "bg-red-500/15 text-red-500 border-red-500/30 animate-pulse font-black"
+        });
+      } else {
+        // Match over
+        setTimeStatus("Match finished");
+        setStatusBadge({
+          label: "FINISHED",
+          style: "bg-slate-900 text-slate-600 border-slate-800/80"
+        });
+      }
+    };
+
+    updateStatus();
+    const interval = setInterval(updateStatus, 15000); // Update every 15 seconds
+    return () => clearInterval(interval);
+  }, [bet.kickoffTime]);
+
   const isRedCardBet = bet.market.toLowerCase().includes("red card") || bet.market.toLowerCase().includes("sent off");
   const isYellowCardBet = !isRedCardBet && (bet.market.toLowerCase().includes("card") || bet.market.toLowerCase().includes("carded") || bet.market.toLowerCase().includes("booking") || bet.market.toLowerCase().includes("cards"));
   const isCardBet = isRedCardBet || isYellowCardBet;
@@ -140,7 +192,7 @@ export function SwipeableCard({
   const typeInfo = getBetIcon(bet.market);
 
   const dateObj = new Date(bet.date + "T00:00:00");
-  const formattedDate = `${dateObj.toLocaleDateString("en-US", { month: "short" }).toUpperCase()} ${dateObj.getDate()} • GROUP STAGE`;
+  const formattedDate = `${dateObj.toLocaleDateString("en-US", { month: "short" }).toUpperCase()} ${dateObj.getDate()} • ROUND OF 32`;
 
   // Render a simpler static layout for the background card
   if (isBackground) {
@@ -149,8 +201,18 @@ export function SwipeableCard({
         {/* Match Header / Odds Badge */}
         <div className="flex justify-between items-start">
           <div className="flex flex-col">
-            <span className="text-[10px] text-slate-600 font-extrabold tracking-widest uppercase">
-              {formattedDate}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-slate-650 font-extrabold tracking-widest uppercase">
+                {formattedDate}
+              </span>
+              {statusBadge && (
+                <span className={`text-[8px] font-black px-1.5 py-0.5 rounded border tracking-wider uppercase scale-90 origin-left opacity-60 ${statusBadge.style}`}>
+                  {statusBadge.label}
+                </span>
+              )}
+            </div>
+            <span className="text-[9px] text-slate-600 font-semibold mt-0.5">
+              {timeStatus}
             </span>
             <div className="flex items-center gap-2 mt-1.5">
               <div className="flex items-center -space-x-1 shrink-0">
@@ -248,8 +310,18 @@ export function SwipeableCard({
       {/* Match Header / Odds Badge */}
       <div className="flex justify-between items-start z-20 relative">
         <div className="flex flex-col">
-          <span className="text-[10px] text-slate-500 font-extrabold tracking-widest uppercase">
-            {formattedDate}
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] text-slate-500 font-extrabold tracking-widest uppercase">
+              {formattedDate}
+            </span>
+            {statusBadge && (
+              <span className={`text-[8px] font-black px-1.5 py-0.5 rounded border tracking-wider uppercase ${statusBadge.style}`}>
+                {statusBadge.label}
+              </span>
+            )}
+          </div>
+          <span className="text-[9px] text-[#00e701]/85 font-semibold mt-0.5">
+            {timeStatus}
           </span>
           <div className="flex items-center gap-2 mt-1.5">
             <div className="flex items-center -space-x-1 shrink-0">

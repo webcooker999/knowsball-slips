@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { PropBet } from "../data/bets";
 import { SwipeableCard, type ForceSwipeInfo } from "./SwipeableCard";
 import { PayoutCounter } from "./PayoutCounter";
@@ -28,16 +28,47 @@ export function SwipeArena({
 }: SwipeArenaProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [forceSwipe, setForceSwipe] = useState<ForceSwipeInfo | null>(null);
+  const [timeToMidnight, setTimeToMidnight] = useState<string>("");
 
   const swipedCardIds = useRef<Set<string>>(new Set());
 
+  // Midnight (00:00 EST / Eastern Time) countdown timer
+  useEffect(() => {
+    const updateCountdown = () => {
+      const now = new Date();
+      // Get UTC time, then convert to EST/GMT-4 to get correct tomorrow threshold
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const estNow = new Date(utc + (3600000 * -4));
+      
+      const tomorrowEst = new Date(estNow.getFullYear(), estNow.getMonth(), estNow.getDate() + 1, 0, 0, 0);
+      
+      // Calculate diff in ms
+      const diffMs = tomorrowEst.getTime() - estNow.getTime();
+      
+      if (diffMs <= 0) {
+        setTimeToMidnight("00h 00m 00s");
+        return;
+      }
+      
+      const hours = Math.floor(diffMs / 3600000);
+      const minutes = Math.floor((diffMs % 3600000) / 60000);
+      const seconds = Math.floor((diffMs % 60000) / 1000);
+      
+      setTimeToMidnight(
+        `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`
+      );
+    };
+    
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Handle swipe completed (either by drag or programmatically)
   const handleSwiped = (direction: "left" | "right", bet: PropBet, index: number) => {
-    // Avoid double triggering
     if (swipedCardIds.current.has(bet.id)) return;
     swipedCardIds.current.add(bet.id);
 
-    // Update index to track top card
     setCurrentIndex(index + 1);
 
     if (direction === "right") {
@@ -54,13 +85,19 @@ export function SwipeArena({
     }
   };
 
+  const isDeckFinished = currentIndex >= bets.length;
+
   return (
     <div className="relative w-full max-w-sm flex-grow flex flex-col justify-center items-center pb-8 pt-4 px-4 pointer-events-auto">
       
       {/* Dynamic Degen Parlay Promo Banner */}
       <div className="w-full bg-[#00e701]/10 border border-[#00e701]/20 rounded-xl px-3.5 py-2 text-center shadow-[0_0_12px_rgba(0,231,1,0.04)] mb-2 mt-1 select-none">
         <span className="text-[9.5px] text-slate-350 font-bold tracking-wide leading-relaxed block">
-          ⚡ <span className="text-[#00e701] font-extrabold">10 DAILY PICKS ARE LIVE!</span> Swipe through today's cards to craft a crazy <span className="text-[#00e701] font-black">10-leg degen parlay</span>.
+          {isDeckFinished ? (
+            <span>⚡ <span className="text-[#00e701] font-extrabold">TODAY'S SLATE COMPLETE</span> • COME BACK TOMORROW</span>
+          ) : (
+            <span>⚡ <span className="text-[#00e701] font-extrabold">10 DAILY PICKS LIVE!</span> Swipe through today's cards to craft a parlay.</span>
+          )}
         </span>
       </div>
 
@@ -69,18 +106,54 @@ export function SwipeArena({
 
       {/* Cards Deck Stack */}
       <div className="relative w-full aspect-[3/4.2] max-h-[380px] flex justify-center items-center mt-3">
-        
-        {/* Background card preview (renders underneath) */}
-        {currentIndex + 1 < bets.length && (
-          <SwipeableCard
-            key={bets[currentIndex + 1].id}
-            bet={bets[currentIndex + 1]}
-            isBackground={true}
-          />
-        )}
+        {isDeckFinished ? (
+          /* Slate Finished Countdown Screen */
+          <div className="w-full h-full bg-slate-900/60 border-2 border-[#00e701]/30 rounded-2xl flex flex-col justify-between p-6 text-center shadow-[0_0_30px_rgba(0,231,1,0.05)] relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#00e701] opacity-70 animate-pulse" />
+            
+            <div className="mt-4 flex flex-col items-center">
+              <span className="text-3xl mb-3 animate-bounce">💸</span>
+              <h3 className="text-base font-black text-white tracking-wide uppercase">
+                Daily Slate Completed
+              </h3>
+              <p className="text-[11px] text-slate-400 mt-2 leading-relaxed max-w-[85%]">
+                You've swiped through all available slips for today. Come back tomorrow to draft more props.
+              </p>
+            </div>
 
-        {/* Foreground active card (draggable and clickable) */}
-        {currentIndex < bets.length ? (
+            <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl py-4 px-3 my-4 flex flex-col items-center justify-center shadow-inner">
+              <span className="text-[9px] text-[#00e701] font-bold tracking-[0.2em] uppercase mb-1.5">
+                Next Slate Unlocks In
+              </span>
+              <span className="text-2xl font-black text-white font-mono tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                {timeToMidnight}
+              </span>
+            </div>
+
+            <p className="text-[10px] text-slate-500 italic mb-2">
+              Next cards unlock tomorrow at 00:00 EST!
+            </p>
+          </div>
+        ) : currentIndex + 1 < bets.length ? (
+          /* Background card preview (renders underneath) */
+          <>
+            <SwipeableCard
+              key={bets[currentIndex + 1].id}
+              bet={bets[currentIndex + 1]}
+              isBackground={true}
+            />
+            <SwipeableCard
+              key={bets[currentIndex].id}
+              bet={bets[currentIndex]}
+              onSwipeRight={() => handleSwiped("right", bets[currentIndex], currentIndex)}
+              onSwipeLeft={() => handleSwiped("left", bets[currentIndex], currentIndex)}
+              forceSwipe={forceSwipe}
+              onForceSwipeComplete={() => setForceSwipe(null)}
+              isBackground={false}
+            />
+          </>
+        ) : (
+          /* Foreground active card */
           <SwipeableCard
             key={bets[currentIndex].id}
             bet={bets[currentIndex]}
@@ -90,21 +163,11 @@ export function SwipeArena({
             onForceSwipeComplete={() => setForceSwipe(null)}
             isBackground={false}
           />
-        ) : (
-          /* Empty deck state when all cards are swiped */
-          <div className="w-full h-full bg-[#1a2c38]/40 border-2 border-dashed border-slate-800 rounded-2xl flex flex-col justify-center items-center p-6 text-center">
-            <span className="text-sm text-slate-500 font-bold uppercase tracking-widest">
-              End of Deck Reached
-            </span>
-            <p className="text-[11px] text-slate-600 mt-2">
-              You selected {acceptedCount}/10 slips. Reset the deck to draft more props.
-            </p>
-          </div>
         )}
       </div>
 
       {/* Tinder Actions Circular Buttons (Positioned directly under the cards) */}
-      {currentIndex < bets.length && (
+      {!isDeckFinished && currentIndex < bets.length && (
         <div className="relative mt-6 z-30 flex justify-center items-center gap-6 pointer-events-auto">
           {/* Reject Button (Left swipe) */}
           <button
